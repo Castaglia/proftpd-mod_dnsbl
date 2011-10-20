@@ -1,0 +1,4 @@
+The mod_dnsbl module for ProFTPD uses configurable DNS blacklist providers
+to provide access controls.
+
+For further module documentation, see mod_dnsbl.html.
