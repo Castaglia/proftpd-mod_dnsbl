@@ -2,7 +2,7 @@
  * ProFTPD: mod_dnsbl -- a module for checking DNSBL (DNS Black Lists)
  *                       servers before allowing a connection
  *
- * Copyright (c) 2007-2010 TJ Saunders
+ * Copyright (c) 2007-2013 TJ Saunders
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +44,8 @@
 
 static int dnsbl_engine = FALSE;
 static int dnsbl_logfd = -1;
+
+static const char *trace_channel = "dnsbl";
 
 typedef enum {
   DNSBL_POLICY_ALLOW_DENY,
@@ -318,13 +320,13 @@ static int dnsbl_sess_init(void) {
 
   switch (policy) {
     case DNSBL_POLICY_ALLOW_DENY:
-      (void) pr_log_writefile(dnsbl_logfd, MOD_DNSBL_VERSION,
+      pr_trace_msg(trace_channel, 8,
         "using policy of allowing connections unless listed by DNSBLDomains");
       reject_conn = FALSE;
       break;
 
     case DNSBL_POLICY_DENY_ALLOW:
-      (void) pr_log_writefile(dnsbl_logfd, MOD_DNSBL_VERSION,
+      pr_trace_msg(trace_channel, 8,
         "using policy of rejecting connections unless listed by DNSBLDomains");
       reject_conn = TRUE;
       break;
